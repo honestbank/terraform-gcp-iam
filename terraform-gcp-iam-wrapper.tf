@@ -21,6 +21,6 @@ module "google_service_account_instance" {
 
   in_project_roles = ["roles/viewer"]
 
-  key_aliases = ["primary"]
+  key_aliases = ["primary", "secondary", "another_key"]
   project     = var.service_account_host_project
 }

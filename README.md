@@ -14,7 +14,7 @@ Account. Inputs and outputs below are for the wrapper - for the actual module to
 
 | Name | Version |
 |------|---------|
-| <a name="provider_random"></a> [random](#provider\_random) | 3.1.0 |
+| <a name="provider_random"></a> [random](#provider\_random) | 3.1.1 |
 
 ## Modules
 
@@ -42,5 +42,5 @@ Account. Inputs and outputs below are for the wrapper - for the actual module to
 | Name | Description |
 |------|-------------|
 | <a name="output_account_email"></a> [account\_email](#output\_account\_email) | The `email` attribute of the `google_service_account` resource. |
-| <a name="output_service_account_key_private_keys_b64"></a> [service\_account\_key\_private\_keys\_b64](#output\_service\_account\_key\_private\_keys\_b64) | n/a |
+| <a name="output_service_account_key_private_keys"></a> [service\_account\_key\_private\_keys](#output\_service\_account\_key\_private\_keys) | n/a |
 <!-- END_TF_DOCS -->

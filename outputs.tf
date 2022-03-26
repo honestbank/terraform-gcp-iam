@@ -3,7 +3,7 @@ output "account_email" {
   value       = module.google_service_account_instance.account_email
 }
 
-output "service_account_key_private_keys_b64" {
+output "service_account_key_private_keys" {
   sensitive = true
-  value     = module.google_service_account_instance.service_account_keys_b64
+  value     = module.google_service_account_instance.service_account_keys
 }
