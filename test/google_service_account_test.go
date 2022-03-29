@@ -83,7 +83,7 @@ func TestGoogleServiceAccount(t *testing.T) {
 
 		// TODO: Try to use subshell
 		//privateKeyMap := terraform.OutputMap(t, terraformOptions, "service_account_keys")
-		jsonOutput := terraform.OutputJson(t, terraformOptions, "service_account_keys_b64")
+		jsonOutput := terraform.OutputJson(t, terraformOptions, "service_account_keys")
 		//
 		//primaryKey := privateKeyMap["primary"]
 		//privateKey := primaryKey["private_key"]
