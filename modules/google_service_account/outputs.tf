@@ -11,3 +11,9 @@ output "service_account_keys" {
     map_key => base64decode(map_value.private_key)
   }
 }
+
+output "service_account_name" {
+  value       = google_service_account.service_account.name
+  sensitive   = false
+  description = "Theh name of `google_service_account` resource."
+}
