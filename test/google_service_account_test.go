@@ -13,7 +13,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestGoogleServiceAccount(t *testing.T) {
+func TestGoogleServiceAccountInProject(t *testing.T) {
 
 	run := strings.ToLower(random.UniqueId())
 
