@@ -40,6 +40,15 @@ resource "google_project_iam_member" "in_project_roles" {
   project = var.project
   role    = each.value
   member  = "serviceAccount:${google_service_account.service_account.email}"
+  dynamic "condition" {
+    for_each = var.in_project_condition_expression != null && var.in_project_condition_title != null ? [1] : []
+    content {
+      expression  = var.in_project_condition_expression
+      description = var.in_project_condition_description
+      title       = var.in_project_condition_title
+    }
+  }
+
 }
 
 resource "google_project_iam_member" "cross_project_iam_role_memberships" {
@@ -48,6 +57,15 @@ resource "google_project_iam_member" "cross_project_iam_role_memberships" {
   member  = "serviceAccount:${google_service_account.service_account.email}"
   project = local.cross_project_iam_role_membership_project_id
   role    = each.value
+
+  dynamic "condition" {
+    for_each = var.cross_project_condition_expression != null && var.cross_project_condition_title != null ? [1] : []
+    content {
+      expression  = var.cross_project_condition_expression
+      description = var.cross_project_condition_description
+      title       = var.cross_project_condition_title
+    }
+  }
 }
 
 resource "google_folder_iam_member" "folder_iam_role_memberships" {
@@ -56,4 +74,13 @@ resource "google_folder_iam_member" "folder_iam_role_memberships" {
   folder = local.folder_iam_role_membership_folder_id
   member = "serviceAccount:${google_service_account.service_account.email}"
   role   = each.value
+
+  dynamic "condition" {
+    for_each = var.folder_condition_expression != null && var.folder_condition_title != null ? [1] : []
+    content {
+      expression  = var.folder_condition_expression
+      description = var.folder_condition_description
+      title       = var.folder_condition_title
+    }
+  }
 }

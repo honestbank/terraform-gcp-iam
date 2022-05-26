@@ -59,3 +59,57 @@ variable "project" {
   description = "The ID of the project that the service account will be created in. Defaults to the provider project configuration."
   type        = string
 }
+
+variable "in_project_condition_title" {
+  type        = string
+  description = "The title of the condition that will be assigned to the service account within its own project. Requires title and expression to be set."
+  default     = null
+}
+
+variable "in_project_condition_description" {
+  type        = string
+  description = "The description of the condition that will be assigned to the service account within its own project. Requires title and expression to be set."
+  default     = null
+}
+
+variable "in_project_condition_expression" {
+  type        = string
+  description = "The expression of the condition that will be assigned to the service account within its own project (use <<~EOT EOT). Requires title and expression to be set."
+  default     = null
+}
+
+variable "cross_project_condition_title" {
+  type        = string
+  description = "The title of the condition that will be assigned to the service account for cross-project. Requires title and expression to be set."
+  default     = null
+}
+
+variable "cross_project_condition_description" {
+  type        = string
+  description = "The description of the condition that will be assigned to the service account for cross-project. Requires title and expression to be set."
+  default     = null
+}
+
+variable "cross_project_condition_expression" {
+  type        = string
+  description = "The expression of the condition that will be assigned to the service account for cross-project (use <<~EOT EOT). Requires title and expression to be set."
+  default     = null
+}
+
+variable "folder_condition_title" {
+  type        = string
+  description = "The title of the condition that will be assigned to the service account within its folder. Requires title and expression to be set."
+  default     = null
+}
+
+variable "folder_condition_description" {
+  type        = string
+  description = "The description of the condition that will be assigned to the service account within its folder. Requires title and expression to be set."
+  default     = null
+}
+
+variable "folder_condition_expression" {
+  type        = string
+  description = "The expression of the condition that will be assigned to the service account within its folder (use <<~EOT EOT). Requires title and expression to be set."
+  default     = null
+}
