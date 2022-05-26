@@ -9,7 +9,8 @@ on:
 env:
   tf_version: "latest"
   tf_working_dir: "."
-  TF_VAR_google_credentials: ${{ secrets.GOOGLE_CREDENTIALS_READ_ALL_PROJECTS }}
+  TF_VAR_google_project: ${{ secrets.TERRATEST_GOOGLE_PROJECT }}
+  TF_VAR_google_credentials: ${{ secrets.TERRATEST_GOOGLE_CREDENTIALS }}
 jobs:
   terraform:
     name: "terraform"

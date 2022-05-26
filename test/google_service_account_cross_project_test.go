@@ -17,7 +17,7 @@ func TestGoogleServiceAccountCrossProject(t *testing.T) {
 	run := strings.ToLower(random.UniqueId())
 
 	// [roles/iam.serviceAccountAdmin, roles/iam.serviceAccountKeyAdmin] required in this project
-	gcpServiceAccountHostProject := "test-terraform-project-01"
+	gcpServiceAccountHostProject := os.Getenv("GOOGLE_PROJECT")
 
 	// [roles/iam.securityAdmin] required in this project
 	gcpCrossProjectIamRoleMembershipProjectId := "storage-0994"
@@ -97,7 +97,7 @@ func TestGoogleServiceAccountCrossProjectMultipleProjects(t *testing.T) {
 	run := strings.ToLower(random.UniqueId())
 
 	// [roles/iam.serviceAccountAdmin, roles/iam.serviceAccountKeyAdmin] required in this project
-	gcpServiceAccountHostProject := "test-terraform-project-01"
+	gcpServiceAccountHostProject := os.Getenv("GOOGLE_PROJECT")
 
 	// [roles/iam.securityAdmin] required in this project
 	gcpCrossProjectIamRoleMembershipProjectId := "storage-0994"
