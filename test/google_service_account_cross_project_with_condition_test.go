@@ -13,16 +13,14 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestGoogleServiceAccountFolder(t *testing.T) {
-
+func TestGoogleServiceAccountCrossProjectWithCondition(t *testing.T) {
 	run := strings.ToLower(random.UniqueId())
 
 	// [roles/iam.serviceAccountAdmin, roles/iam.serviceAccountKeyAdmin] required in this project
 	gcpServiceAccountHostProject := os.Getenv("GOOGLE_PROJECT")
 
-	// [roles/iam.securityAdmin] required on this folder
-	// 502911218937 is the folder titled `terraform automated testing`
-	folderIamRoleMembershipFolderId := "502911218937"
+	// [roles/iam.securityAdmin] required in this project
+	gcpCrossProjectIamRoleMembershipProjectId := "storage-0994"
 	gcpIndonesiaRegion := "asia-southeast2"
 
 	// GCP credentials will be sourced from this var. Do not use `GOOGLE_CREDENTIALS`
@@ -61,9 +59,16 @@ func TestGoogleServiceAccountFolder(t *testing.T) {
 				"project":                  gcpServiceAccountHostProject,
 				"google_credentials":       os.Getenv(googleCredentialsEnvVarName),
 				"google_region":            gcpIndonesiaRegion,
-				"iam_role_membership_type": "FOLDER",
-				"folder_iam_role_memberships": map[string][]string{
-					folderIamRoleMembershipFolderId: {"roles/viewer"},
+				"iam_role_membership_type": "CROSS_PROJECT",
+				"cross_project_iam_role_memberships": map[string][]string{
+					gcpCrossProjectIamRoleMembershipProjectId: {"roles/storage.objectViewer"},
+				},
+				"cross_project_conditions": []map[string]string{
+					{
+						"title":       "terratest-" + run,
+						"expression":  "resource.service == 'storage.googleapis.com'",
+						"description": "test condition description" + run,
+					},
 				},
 			},
 		})
@@ -95,15 +100,14 @@ func TestGoogleServiceAccountFolder(t *testing.T) {
 	})
 }
 
-func TestGoogleServiceAccountCrossProjectMultipleFolders(t *testing.T) {
+func TestGoogleServiceAccountCrossProjectMultipleProjectsWithCondition(t *testing.T) {
 	run := strings.ToLower(random.UniqueId())
 
 	// [roles/iam.serviceAccountAdmin, roles/iam.serviceAccountKeyAdmin] required in this project
-	gcpServiceAccountHostProject := os.Getenv("GOOGLE_PROJECT")
+	gcpServiceAccountHostProject := "test-terraform-project-01"
 
-	// [roles/iam.securityAdmin] required on this folder
-	// 502911218937 is the folder titled `terraform automated testing`
-	folderIamRoleMembershipFolderId := "502911218937"
+	// [roles/iam.securityAdmin] required in this project
+	gcpCrossProjectIamRoleMembershipProjectId := "storage-0994"
 	gcpIndonesiaRegion := "asia-southeast2"
 
 	// GCP credentials will be sourced from this var. Do not use `GOOGLE_CREDENTIALS`
@@ -142,11 +146,18 @@ func TestGoogleServiceAccountCrossProjectMultipleFolders(t *testing.T) {
 				"project":                  gcpServiceAccountHostProject,
 				"google_credentials":       os.Getenv(googleCredentialsEnvVarName),
 				"google_region":            gcpIndonesiaRegion,
-				"iam_role_membership_type": "FOLDER",
-				// Two folders should cause an error
-				"folder_iam_role_memberships": map[string][]string{
-					folderIamRoleMembershipFolderId: {"roles/viewer"},
-					"1234567890":                    {"roles/viewer"},
+				"iam_role_membership_type": "CROSS_PROJECT",
+				// Two projects should cause an error
+				"cross_project_iam_role_memberships": map[string][]string{
+					gcpCrossProjectIamRoleMembershipProjectId: {"roles/storage.objectViewer"},
+					"some-other-project":                      {"roles/storage.objectViewer"},
+				},
+				"cross_project_conditions": []map[string]string{
+					{
+						"title":       "terratest-" + run,
+						"expression":  "resource.service == 'storage.googleapis.com'",
+						"description": "test condition description" + run,
+					},
 				},
 			},
 		})

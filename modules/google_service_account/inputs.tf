@@ -59,3 +59,102 @@ variable "project" {
   description = "The ID of the project that the service account will be created in. Defaults to the provider project configuration."
   type        = string
 }
+
+variable "in_project_conditions" {
+  type = list(object({
+    title       = string,
+    description = string,
+    expression  = string,
+  }))
+  default     = []
+  description = <<DESC
+     A list of conditions to be applied to in project service account.
+     Example:
+     ```
+     module "google_service_account_instance" {
+       source = "./modules/google_service_account"
+
+       account_id   = "terraform-id"
+       display_name = "google_service_account_instance"
+       description  = "An instance of the google_service_account Terraform component module."
+
+       in_project_roles = ["roles/viewer"]
+
+       in_project_conditions = [{
+         title = "User is in the same organization as the Terraform project"
+         description = "The user is in the same organization as the Terraform project."
+         expression = "request.resource.labels.organization_id == project.project_id"
+       }]
+
+       key_aliases = ["primary", "secondary", "another_key"]
+       project     = var.service_account_host_project
+     }
+     ```
+  DESC
+}
+
+variable "cross_project_conditions" {
+  type = list(object({
+    title       = string,
+    description = string,
+    expression  = string,
+  }))
+  default     = []
+  description = <<DESC
+     A list of conditions to be applied to in project service account.
+     Example:
+     ```
+     module "google_service_account_instance" {
+       source = "./modules/google_service_account"
+
+       account_id   = "terraform-id"
+       display_name = "google_service_account_instance"
+       description  = "An instance of the google_service_account Terraform component module."
+
+       cross_project_iam_role_memberships = ["somemembership"]
+
+       cross_project_conditions = [{
+         title = "User is in the same organization as the Terraform project"
+         description = "The user is in the same organization as the Terraform project."
+         expression = "request.resource.labels.organization_id == project.project_id"
+       }]
+
+       key_aliases = ["primary", "secondary", "another_key"]
+       project     = var.service_account_host_project
+     }
+     ```
+  DESC
+}
+
+variable "folder_conditions" {
+  type = list(object({
+    title       = string,
+    description = string,
+    expression  = string,
+  }))
+  default     = []
+  description = <<DESC
+     A list of conditions to be applied to in project service account.
+     Example:
+     ```
+     module "google_service_account_instance" {
+       source = "./modules/google_service_account"
+
+       account_id   = "terraform-id"
+       display_name = "google_service_account_instance"
+       description  = "An instance of the google_service_account Terraform component module."
+
+       folder_iam_role_memberships = ["folder_memberships"]
+
+       folder_conditions = [{
+         title = "User is in the same organization as the Terraform project"
+         description = "The user is in the same organization as the Terraform project."
+         expression = "request.resource.labels.organization_id == project.project_id"
+       }]
+
+       key_aliases = ["primary", "secondary", "another_key"]
+       project     = var.service_account_host_project
+     }
+     ```
+  DESC
+}

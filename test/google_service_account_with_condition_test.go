@@ -13,7 +13,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestGoogleServiceAccountInProject(t *testing.T) {
+func TestGoogleServiceAccountInProjectWithCondition(t *testing.T) {
 
 	run := strings.ToLower(random.UniqueId())
 
@@ -60,7 +60,14 @@ func TestGoogleServiceAccountInProject(t *testing.T) {
 				"project":            gcpProject,
 				"google_credentials": os.Getenv(googleCredentialsEnvVarName),
 				"google_region":      gcpIndonesiaRegion,
-				"in_project_roles":   []string{"roles/viewer"},
+				"in_project_roles":   []string{"roles/storage.objectViewer"},
+				"in_project_conditions": []map[string]string{
+					{
+						"title":       "terratest-" + run,
+						"expression":  "resource.service == 'storage.googleapis.com'",
+						"description": "test condition description" + run,
+					},
+				},
 			},
 		})
 	})

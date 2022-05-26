@@ -40,6 +40,14 @@ resource "google_project_iam_member" "in_project_roles" {
   project = var.project
   role    = each.value
   member  = "serviceAccount:${google_service_account.service_account.email}"
+  dynamic "condition" {
+    for_each = var.in_project_conditions
+    content {
+      expression  = condition.value.expression
+      description = condition.value.description
+      title       = condition.value.title
+    }
+  }
 }
 
 resource "google_project_iam_member" "cross_project_iam_role_memberships" {
@@ -48,6 +56,15 @@ resource "google_project_iam_member" "cross_project_iam_role_memberships" {
   member  = "serviceAccount:${google_service_account.service_account.email}"
   project = local.cross_project_iam_role_membership_project_id
   role    = each.value
+
+  dynamic "condition" {
+    for_each = var.cross_project_conditions
+    content {
+      expression  = condition.value.expression
+      description = condition.value.description
+      title       = condition.value.title
+    }
+  }
 }
 
 resource "google_folder_iam_member" "folder_iam_role_memberships" {
@@ -56,4 +73,13 @@ resource "google_folder_iam_member" "folder_iam_role_memberships" {
   folder = local.folder_iam_role_membership_folder_id
   member = "serviceAccount:${google_service_account.service_account.email}"
   role   = each.value
+
+  dynamic "condition" {
+    for_each = var.folder_conditions
+    content {
+      expression  = condition.value.expression
+      description = condition.value.description
+      title       = condition.value.title
+    }
+  }
 }

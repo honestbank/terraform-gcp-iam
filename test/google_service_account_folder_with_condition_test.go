@@ -13,7 +13,7 @@ import (
 	"github.com/stretchr/testify/assert"
 )
 
-func TestGoogleServiceAccountFolder(t *testing.T) {
+func TestGoogleServiceAccountFolderWithCondition(t *testing.T) {
 
 	run := strings.ToLower(random.UniqueId())
 
@@ -63,7 +63,14 @@ func TestGoogleServiceAccountFolder(t *testing.T) {
 				"google_region":            gcpIndonesiaRegion,
 				"iam_role_membership_type": "FOLDER",
 				"folder_iam_role_memberships": map[string][]string{
-					folderIamRoleMembershipFolderId: {"roles/viewer"},
+					folderIamRoleMembershipFolderId: {"roles/storage.objectViewer"},
+				},
+				"folder_conditions": []map[string]string{
+					{
+						"title":       "terratest-" + run,
+						"expression":  "resource.service == 'storage.googleapis.com'",
+						"description": "test condition description" + run,
+					},
 				},
 			},
 		})
@@ -95,7 +102,7 @@ func TestGoogleServiceAccountFolder(t *testing.T) {
 	})
 }
 
-func TestGoogleServiceAccountCrossProjectMultipleFolders(t *testing.T) {
+func TestGoogleServiceAccountCrossProjectMultipleFoldersWithCondition(t *testing.T) {
 	run := strings.ToLower(random.UniqueId())
 
 	// [roles/iam.serviceAccountAdmin, roles/iam.serviceAccountKeyAdmin] required in this project
@@ -145,11 +152,19 @@ func TestGoogleServiceAccountCrossProjectMultipleFolders(t *testing.T) {
 				"iam_role_membership_type": "FOLDER",
 				// Two folders should cause an error
 				"folder_iam_role_memberships": map[string][]string{
-					folderIamRoleMembershipFolderId: {"roles/viewer"},
-					"1234567890":                    {"roles/viewer"},
+					folderIamRoleMembershipFolderId: {"roles/storage.objectViewer"},
+					"1234567890":                    {"roles/storage.objectViewer"},
+				},
+				"folder_conditions": []map[string]string{
+					{
+						"title":       "terratest-" + run,
+						"expression":  "resource.service == 'storage.googleapis.com'",
+						"description": "test condition description" + run,
+					},
 				},
 			},
 		})
+
 	})
 
 	test_structure.RunTestStage(t, testCaseName+"_terraform_init", func() {
