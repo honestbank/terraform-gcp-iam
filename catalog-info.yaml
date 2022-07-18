@@ -1,0 +1,17 @@
+---
+apiVersion: backstage.io/v1alpha1
+kind: Resource
+metadata:
+  name: terraform-gcp-iam
+  description: Terraform module for creating IAM in Google Cloud Platform
+  annotations:
+    github.com/project-slug: honestbank/terraform-gcp-iam
+    github.com/team-slug: honestbank/devops-engineers
+spec:
+  type: tf-module
+  lifecycle: prod
+  owner: group:devops-engineers
+  system: infrastructure
+  dependencyOf:
+    - resource:iac-iam
+    - resource:user-iam
