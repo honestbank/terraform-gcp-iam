@@ -14,7 +14,7 @@ Account. Inputs and outputs below are for the wrapper - for the actual module to
 
 | Name | Version |
 |------|---------|
-| <a name="provider_random"></a> [random](#provider\_random) | 3.2.0 |
+| <a name="provider_random"></a> [random](#provider\_random) | 3.3.2 |
 
 ## Modules
 
