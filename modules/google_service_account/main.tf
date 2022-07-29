@@ -31,7 +31,9 @@ resource "google_service_account" "service_account" {
 resource "google_service_account_key" "keys" {
   for_each = toset(var.key_aliases)
 
-  service_account_id = google_service_account.service_account.account_id
+  # https://github.com/hashicorp/terraform-provider-google/issues/9617
+  # project is implicitly passed from google_service_account ID as projects/{PROJECT_ID}/serviceAccounts/{ACCOUNT}
+  service_account_id = google_service_account.service_account.id
 }
 
 resource "google_project_iam_member" "in_project_roles" {
