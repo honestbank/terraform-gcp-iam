@@ -21,8 +21,4 @@ variable "cross_project_iam_role_memberships" {
   default     = {}
   description = "A map of GCP project IDs and an associated list of IAM roles to add a membership to."
   type        = map(list(string))
-  validation {
-    condition     = length(var.cross_project_iam_role_memberships) < 2
-    error_message = "To maintain a cleaner security model, only one project is currently supported for cross-project role memberships."
-  }
 }

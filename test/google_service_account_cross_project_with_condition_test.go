@@ -104,10 +104,11 @@ func TestGoogleServiceAccountCrossProjectMultipleProjectsWithCondition(t *testin
 	run := strings.ToLower(random.UniqueId())
 
 	// [roles/iam.serviceAccountAdmin, roles/iam.serviceAccountKeyAdmin] required in this project
-	gcpServiceAccountHostProject := "test-terraform-project-01"
+	gcpServiceAccountHostProject := os.Getenv("GOOGLE_PROJECT")
 
 	// [roles/iam.securityAdmin] required in this project
 	gcpCrossProjectIamRoleMembershipProjectId := "storage-0994"
+	gcpCrossProjectIamRoleMembershipProjectId2 := "tf-shared-vpc-host-78a3"
 	gcpIndonesiaRegion := "asia-southeast2"
 
 	// GCP credentials will be sourced from this var. Do not use `GOOGLE_CREDENTIALS`
@@ -149,8 +150,8 @@ func TestGoogleServiceAccountCrossProjectMultipleProjectsWithCondition(t *testin
 				"iam_role_membership_type": "CROSS_PROJECT",
 				// Two projects should cause an error
 				"cross_project_iam_role_memberships": map[string][]string{
-					gcpCrossProjectIamRoleMembershipProjectId: {"roles/storage.objectViewer"},
-					"some-other-project":                      {"roles/storage.objectViewer"},
+					gcpCrossProjectIamRoleMembershipProjectId:  {"roles/storage.objectViewer"},
+					gcpCrossProjectIamRoleMembershipProjectId2: {"roles/storage.objectViewer"},
 				},
 				"conditions": []map[string]string{
 					{
@@ -169,6 +170,6 @@ func TestGoogleServiceAccountCrossProjectMultipleProjectsWithCondition(t *testin
 
 	test_structure.RunTestStage(t, testCaseName+"_terraform_plan", func() {
 		_, planErr := terraform.PlanE(t, terraformOptions)
-		assert.NotNil(t, planErr, "plan should error when 2 external projects are specified")
+		assert.Nil(t, planErr, "plan should not error when 2 external projects are specified")
 	})
 }

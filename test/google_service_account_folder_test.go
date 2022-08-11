@@ -104,6 +104,7 @@ func TestGoogleServiceAccountCrossProjectMultipleFolders(t *testing.T) {
 	// [roles/iam.securityAdmin] required on this folder
 	// 502911218937 is the folder titled `terraform automated testing`
 	folderIamRoleMembershipFolderId := "502911218937"
+	folderIamRoleMembershipFolderId2 := "1004506453476"
 	gcpIndonesiaRegion := "asia-southeast2"
 
 	// GCP credentials will be sourced from this var. Do not use `GOOGLE_CREDENTIALS`
@@ -145,8 +146,8 @@ func TestGoogleServiceAccountCrossProjectMultipleFolders(t *testing.T) {
 				"iam_role_membership_type": "FOLDER",
 				// Two folders should cause an error
 				"folder_iam_role_memberships": map[string][]string{
-					folderIamRoleMembershipFolderId: {"roles/viewer"},
-					"1234567890":                    {"roles/viewer"},
+					folderIamRoleMembershipFolderId:  {"roles/viewer"},
+					folderIamRoleMembershipFolderId2: {"roles/viewer"},
 				},
 			},
 		})
@@ -158,6 +159,6 @@ func TestGoogleServiceAccountCrossProjectMultipleFolders(t *testing.T) {
 
 	test_structure.RunTestStage(t, testCaseName+"_terraform_plan", func() {
 		_, planErr := terraform.PlanE(t, terraformOptions)
-		assert.NotNil(t, planErr, "plan should error when 2 external projects are specified")
+		assert.Nil(t, planErr, "plan should not error when 2 external projects are specified")
 	})
 }
