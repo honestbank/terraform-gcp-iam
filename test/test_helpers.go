@@ -8,6 +8,20 @@ import (
 	"github.com/gruntwork-io/terratest/modules/files"
 )
 
+// Define credentials, project, etc at package level for reuse throughout tests and helpers
+var envVars = map[string]string{
+	"terratestGoogleCredentials":         "TERRATEST_GOOGLE_CREDENTIALS",
+	"terratestGoogleProjectCompute":      "TERRATEST_GOOGLE_PROJECT_COMPUTE",
+	"terratestGoogleProjectStorage":      "TERRATEST_GOOGLE_PROJECT_STORAGE",
+	"terratestGoogleExtraFolderId":       "TERRATEST_GOOGLE_EXTRA_FOLDER_ID",
+	"terratestGoogleProjectInsideFolder": "TERRATEST_GOOGLE_PROJECT_INSIDE_FOLDER",
+}
+var terratestGoogleCredentials = os.Getenv(envVars["terratestGoogleCredentials"])
+var terratestGoogleProjectCompute = os.Getenv(envVars["terratestGoogleProjectCompute"])
+var terratestGoogleProjectStorage = os.Getenv(envVars["terratestGoogleProjectStorage"])
+var terratestGoogleExtraFolderId = os.Getenv(envVars["terratestGoogleExtraFolderId"])
+var terratestGoogleProjectInsideFolder = os.Getenv(envVars["terratestGoogleProjectInsideFolder"])
+
 // copySupportingFiles copies one or more files from the current working directory into a destination dir.
 // destination should be specified by its absolute (not relative) path beginning with "/".
 // This is done to configure providers when using modules without them explicitly defined.
