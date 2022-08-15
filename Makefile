@@ -1,10 +1,14 @@
-lint:
+lint: docs
 	terraform fmt --recursive
 
-validate:
-	terraform init
+validate: lint
+	terraform init --upgrade
 	terraform validate
-	terraform fmt --recursive
 
 docs:
+	rm -rf modules/*/.terraform modules/*/.terraform.lock.hcl
+	rm -rf examples/*/.terraform examples/*/.terraform.lock.hcl
 	terraform-docs -c .terraform-docs.yml .
+	terraform-docs -c .terraform-docs-examples.yml .
+
+commit: docs lint validate
