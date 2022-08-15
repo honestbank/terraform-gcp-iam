@@ -16,11 +16,35 @@ module "google_service_account_instance" {
   source = "./modules/google_service_account"
 
   account_id   = "terraform-${random_id.run_id.hex}"
-  display_name = "google_service_account_instance"
+  project_id   = var.service_account_host_project
+  display_name = "Terraform ${random_id.run_id.hex}"
   description  = "An instance of the google_service_account Terraform component module."
 
-  in_project_roles = ["roles/viewer"]
+  project_iam_memberships = [
+    {
+      role = "roles/viewer"
+    }
+  ]
 
-  key_aliases = ["primary", "secondary", "another_key"]
-  project     = var.service_account_host_project
+  cross_project_iam_memberships = {
+    (var.other_project_id) = [
+      {
+        role = "roles/viewer"
+      }
+    ]
+  }
+
+  folder_iam_memberships = {
+    (var.folder_id) = [
+      {
+        role = "roles/viewer"
+      }
+    ]
+  }
+
+  key_aliases = [
+    "primary",
+    "secondary",
+    "another_key"
+  ]
 }
