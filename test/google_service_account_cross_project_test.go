@@ -155,6 +155,6 @@ func TestGoogleServiceAccountCrossProjectMultipleProjects(t *testing.T) {
 
 	test_structure.RunTestStage(t, testCaseName+"_terraform_plan", func() {
 		_, planErr := terraform.PlanE(t, terraformOptions)
-		assert.NotNil(t, planErr, "plan should error when 2 external projects are specified")
+		assert.Nil(t, planErr, "plan should not error when 2 external projects are specified")
 	})
 }

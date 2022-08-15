@@ -20,6 +20,7 @@ func TestGoogleServiceAccountInProject(t *testing.T) {
 	// Can be any project and region, need to source from env var
 	gcpProject := os.Getenv("GOOGLE_PROJECT")
 	gcpIndonesiaRegion := "asia-southeast2"
+	logger.Log(t, gcpProject)
 
 	// GCP credentials will be sourced from this var. Do not use `GOOGLE_CREDENTIALS`
 	// since we will be using that for validating Terraform-created credentials.

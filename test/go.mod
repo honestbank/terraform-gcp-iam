@@ -3,7 +3,6 @@ module github.com/honestbank/terraform-gcp-iam/v2
 go 1.17
 
 require (
-	cloud.google.com/go/storage v1.22.1
 	github.com/gruntwork-io/terratest v0.40.6
 	github.com/stretchr/testify v1.7.0
 )
@@ -12,6 +11,7 @@ require (
 	cloud.google.com/go v0.102.0 // indirect
 	cloud.google.com/go/compute v1.6.1 // indirect
 	cloud.google.com/go/iam v0.3.0 // indirect
+	cloud.google.com/go/storage v1.22.1 // indirect
 	github.com/agext/levenshtein v1.2.3 // indirect
 	github.com/apparentlymart/go-textseg/v13 v13.0.0 // indirect
 	github.com/aws/aws-sdk-go v1.40.56 // indirect
