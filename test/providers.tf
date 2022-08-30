@@ -7,9 +7,8 @@ variable "google_region" {
 }
 
 provider "google" {
-
   // The google_service_account module uses `project`.
-  project     = var.project
+  project     = var.project_id // Defined in examples
   region      = var.google_region
   credentials = var.google_credentials
 }

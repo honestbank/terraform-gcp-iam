@@ -3,10 +3,17 @@ variable "account_id" {
   type        = string
 }
 
-variable "cross_project_iam_role_memberships" {
+variable "cross_project_iam_memberships" {
   default     = {}
-  description = "A map of GCP project IDs and an associated list of IAM roles to add a membership to."
-  type        = map(list(string))
+  description = "A map of project IDs with a list of IAM roles with optional conditions to add memberships for."
+  type = map(list(object({
+    role = string
+    conditions = optional(list(object({
+      description = string
+      expression  = string
+      title       = string
+    })))
+  })))
 }
 
 variable "description" {
@@ -19,26 +26,30 @@ variable "display_name" {
   type        = string
 }
 
-variable "folder_iam_role_memberships" {
+variable "folder_iam_memberships" {
   default     = {}
-  description = "A map of GCP folder IDs and an associated list of IAM roles to add a membership to."
-  type        = map(list(string))
+  description = "A map of folder IDs with a list of IAM roles with optional conditions to add memberships for."
+  type = map(list(object({
+    role = string
+    conditions = optional(list(object({
+      description = string
+      expression  = string
+      title       = string
+    })))
+  })))
 }
 
-variable "iam_role_membership_type" {
-  default     = "IN_PROJECT"
-  description = "One of [CROSS_PROJECT, FOLDER, IN_PROJECT]."
-  type        = string
-  validation {
-    condition     = contains(["CROSS_PROJECT", "FOLDER", "IN_PROJECT"], var.iam_role_membership_type)
-    error_message = "Must be one of [CROSS_PROJECT, FOLDER, IN_PROJECT]."
-  }
-}
-
-variable "in_project_roles" {
+variable "project_iam_memberships" {
   default     = []
-  description = "Roles to assign service account within its own project."
-  type        = list(string)
+  description = "A list of IAM roles with optional conditions to add memberships for within the same project."
+  type = list(object({
+    role = string
+    conditions = optional(list(object({
+      description = string
+      expression  = string
+      title       = string
+    })))
+  }))
 }
 
 variable "key_aliases" {
@@ -47,40 +58,7 @@ variable "key_aliases" {
   type        = list(string)
 }
 
-variable "project" {
+variable "project_id" {
   description = "The ID of the project that the service account will be created in. Defaults to the provider project configuration."
   type        = string
-}
-
-variable "conditions" {
-  type = list(object({
-    title       = string,
-    description = string,
-    expression  = string,
-  }))
-  default     = []
-  description = <<DESC
-     A list of conditions to be applied to in project service account.
-     Example:
-     ```
-     module "google_service_account_instance" {
-       source = "./modules/google_service_account"
-
-       account_id   = "terraform-id"
-       display_name = "google_service_account_instance"
-       description  = "An instance of the google_service_account Terraform component module."
-
-       in_project_roles = ["roles/viewer"]
-
-       conditions = [{
-         title = "User is in the same organization as the Terraform project"
-         description = "The user is in the same organization as the Terraform project."
-         expression = "request.resource.labels.organization_id == project.project_id"
-       }]
-
-       key_aliases = ["primary", "secondary", "another_key"]
-       project     = var.service_account_host_project
-     }
-     ```
-  DESC
 }
