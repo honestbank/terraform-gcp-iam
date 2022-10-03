@@ -21,18 +21,14 @@ locals {
 }
 
 resource "google_project_iam_member" "project_iam_memberships" {
-  for_each = {
-    for membership in var.project_iam_memberships :
-    membership.role => membership
-  }
-
+  count  = length(local.folder_iam_memberships)
   member = "serviceAccount:${google_service_account.service_account.email}"
 
   project = var.project_id
-  role    = each.value.role
+  role    = local.folder_iam_memberships[count.index].role
 
   dynamic "condition" {
-    for_each = each.value.conditions != null ? each.value.conditions : []
+    for_each = local.folder_iam_memberships[count.index].conditions != null ? local.folder_iam_memberships[count.index].conditions : []
     content {
       description = condition.value.description
       expression  = condition.value.expression
