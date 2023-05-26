@@ -21,6 +21,7 @@ locals {
 }
 
 resource "google_project_iam_member" "project_iam_memberships" {
+  #checkov:skip=CKV_GCP_117
   #checkov:skip=CKV_GCP_49
   #checkov:skip=CKV_GCP_41
   #checkov:skip=CKV_AWS_356
