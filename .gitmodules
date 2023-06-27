@@ -1,3 +1,1 @@
-[submodule "examples/modules/terraform-gcp-gcs"]
-	path = examples/modules/terraform-gcp-gcs
-	url = https://github.com/honestbank/terraform-gcp-gcs
+

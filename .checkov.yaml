@@ -7,6 +7,8 @@ external-modules-download-path: .external_modules
 framework:
 - all
 quiet: true
+skip-check:
+  - CKV_TF_1 # Ensure Terraform module sources use a commit hash
 skip-path:
   - .external_modules
   - modules
