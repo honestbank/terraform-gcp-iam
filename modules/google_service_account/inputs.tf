@@ -1,6 +1,10 @@
 variable "account_id" {
   description = "The account id that is used to generate the service account email address and a stable unique id. It is unique within a project, must be 6-30 characters long, and match the regular expression [a-z]([-a-z0-9]*[a-z0-9]) to comply with RFC1035. Changing this forces a new service account to be created."
   type        = string
+  validation {
+    condition     = length(var.account_id) >= 6 && length(var.account_id) <= 30 && regex("[a-z]([-a-z0-9]*[a-z0-9])", var.account_id) == var.account_id
+    error_message = "The account_id must be 6-30 characters long, and match the regular expression [a-z]([-a-z0-9]*[a-z0-9]) to comply with RFC1035."
+  }
 }
 
 variable "cross_project_iam_memberships" {

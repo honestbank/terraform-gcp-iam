@@ -14,13 +14,14 @@ Module for managing Google Service Accounts plus:
 
 | Name | Version |
 |------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3.0 |
 | <a name="requirement_google"></a> [google](#requirement\_google) | >= 4.12 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_google"></a> [google](#provider\_google) | >= 4.12 |
+| <a name="provider_google"></a> [google](#provider\_google) | 4.20.0 |
 
 ## Modules
 
