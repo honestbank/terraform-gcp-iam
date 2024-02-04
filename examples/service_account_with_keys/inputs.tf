@@ -1,5 +1,6 @@
 variable "account_id" {
   type        = string
+  default     = "something-"
   description = "The ID of the GCP service account."
 }
 
