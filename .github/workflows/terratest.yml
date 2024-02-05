@@ -1,5 +1,7 @@
 name: terratest
-permissions: read-all
+permissions:
+  pull-requests: write
+  contents: write
 
 on:
   pull_request:
