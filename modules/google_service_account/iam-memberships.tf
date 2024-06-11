@@ -33,7 +33,7 @@ resource "google_project_iam_member" "project_iam_memberships" {
   member = "serviceAccount:${google_service_account.service_account.email}"
 
   project = var.project_id
-  role    = each.value.role
+  role    = each.value.role #tfsec:ignore:google-iam-no-project-level-service-account-impersonation
 
   dynamic "condition" {
     for_each = each.value.conditions != null ? each.value.conditions : []
