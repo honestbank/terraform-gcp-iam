@@ -1,14 +1,14 @@
 compact: true
 directory:
-- gcp-gke
+  - .
 download-external-modules: true
 evaluate-variables: true
 external-modules-download-path: .external_modules
 framework:
-- all
+  - all
 quiet: true
-skip-check:
-  - CKV_TF_1 # Ensure Terraform module sources use a commit hash
 skip-path:
   - .external_modules
   - modules
+  - catalog-info.yml
+baseline: .checkov.baseline
