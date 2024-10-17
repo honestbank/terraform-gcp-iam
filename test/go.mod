@@ -1,6 +1,6 @@
 module github.com/honestbank/terraform-gcp-iam/v2
 
-go 1.17
+go 1.23
 
 require (
 	cloud.google.com/go/storage v1.22.1
