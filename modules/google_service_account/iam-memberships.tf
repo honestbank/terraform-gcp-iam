@@ -22,9 +22,6 @@ locals {
 
 resource "google_project_iam_member" "project_iam_memberships" {
   #checkov:skip=CKV_GCP_117
-  #checkov:skip=CKV_GCP_49
-  #checkov:skip=CKV_GCP_41
-  #checkov:skip=CKV_AWS_356
   for_each = {
     for membership in var.project_iam_memberships :
     membership.role => membership
@@ -33,7 +30,7 @@ resource "google_project_iam_member" "project_iam_memberships" {
   member = "serviceAccount:${google_service_account.service_account.email}"
 
   project = var.project_id
-  role    = each.value.role #tfsec:ignore:google-iam-no-project-level-service-account-impersonation
+  role    = each.value.role
 
   dynamic "condition" {
     for_each = each.value.conditions != null ? each.value.conditions : []
