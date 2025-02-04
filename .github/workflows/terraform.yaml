@@ -1,7 +1,4 @@
----
 name: "Terraform GitHub Action"
-permissions:
-  contents: read
 on:
   pull_request:
     # This workflow is meant for public Terraform module repositories
@@ -30,3 +27,7 @@ jobs:
       - name: Terraform Validate
         id: validate
         run: terraform validate -no-color
+      - name: Terraform Plan
+        id: plan
+        run: terraform plan -no-color
+        continue-on-error: true
