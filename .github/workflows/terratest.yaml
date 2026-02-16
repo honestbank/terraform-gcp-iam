@@ -12,6 +12,9 @@ env:
   AWS_SECRET_KEY: ${{ secrets.TERRATEST_AWS_SECRET_ACCESS_KEY }}
   AWS_DEFAULT_REGION: ${{ secrets.TERRATEST_AWS_REGION }}
   AWS_REGION: ${{ secrets.TERRATEST_AWS_REGION }}
+  GOOGLE_CREDENTIALS: ${{ secrets.TERRATEST_GOOGLE_CREDENTIALS }}
+  TERRATEST_GOOGLE_CREDENTIALS: ${{ secrets.TERRATEST_GOOGLE_CREDENTIALS }}
+  TERRATEST_GOOGLE_PROJECT_COMPUTE: ${{ secrets.TERRATEST_GOOGLE_PROJECT }}
 jobs:
   terratest:
     name: terratest
@@ -24,8 +27,12 @@ jobs:
       - name: Set up Go
         uses: actions/setup-go@v5
         with:
-          go-version: 1.23
+          go-version: 1.26
         id: go
+      - name: Set up Terraform
+        uses: hashicorp/setup-terraform@v3
+        with:
+          cli_config_credentials_token: ${{ secrets.TF_API_TOKEN }}
       - name: Run 'go test -v -timeout 60m'
         run: |
           cd test
