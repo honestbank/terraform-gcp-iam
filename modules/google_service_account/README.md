@@ -14,13 +14,14 @@ Module for managing Google Service Accounts plus:
 
 | Name | Version |
 |------|---------|
+| <a name="requirement_terraform"></a> [terraform](#requirement\_terraform) | >= 1.3.0 |
 | <a name="requirement_google"></a> [google](#requirement\_google) | >= 4.12 |
 
 ## Providers
 
 | Name | Version |
 |------|---------|
-| <a name="provider_google"></a> [google](#provider\_google) | >= 4.12 |
+| <a name="provider_google"></a> [google](#provider\_google) | 4.20.0 |
 
 ## Modules
 
@@ -40,7 +41,7 @@ No modules.
 
 | Name | Description | Type | Default | Required |
 |------|-------------|------|---------|:--------:|
-| <a name="input_account_id"></a> [account\_id](#input\_account\_id) | The account id that is used to generate the service account email address and a stable unique id. It is unique within a project, must be 6-30 characters long, and match the regular expression [a-z]([-a-z0-9]*[a-z0-9]) to comply with RFC1035. Changing this forces a new service account to be created. | `string` | n/a | yes |
+| <a name="input_account_id"></a> [account\_id](#input\_account\_id) | The account id that is used to generate the service account email address and a stable unique id. It is unique within a project, must be 6-30 characters long, and match the regular expression ^[a-z](?:[-a-z0-9]{4,28}[a-z0-9])$ to comply with RFC1035. Changing this forces a new service account to be created. | `string` | n/a | yes |
 | <a name="input_cross_project_iam_memberships"></a> [cross\_project\_iam\_memberships](#input\_cross\_project\_iam\_memberships) | A map of project IDs with a list of IAM roles with optional conditions to add memberships for. | <pre>map(list(object({<br>    role = string<br>    conditions = optional(list(object({<br>      description = string<br>      expression  = string<br>      title       = string<br>    })))<br>  })))</pre> | `{}` | no |
 | <a name="input_description"></a> [description](#input\_description) | A text description of the service account. Must be less than or equal to 256 UTF-8 bytes. | `string` | n/a | yes |
 | <a name="input_display_name"></a> [display\_name](#input\_display\_name) | The display name for the service account. Can be updated without creating a new resource. | `string` | n/a | yes |

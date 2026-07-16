@@ -1,6 +1,20 @@
 terraform {
   required_version = "~> 1.0"
+
+  required_providers {
+    google = {
+      source  = "hashicorp/google"
+      version = "~> 6.7"
+    }
+
+    random = {
+      source  = "hashicorp/random"
+      version = "~> 3.6"
+    }
+  }
 }
+
+provider "random" {}
 
 provider "google" {
   region      = var.google_region

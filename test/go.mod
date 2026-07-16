@@ -1,10 +1,11 @@
 module github.com/honestbank/terraform-gcp-iam/v2
 
-go 1.17
+go 1.26
 
 require (
 	cloud.google.com/go/storage v1.22.1
 	github.com/gruntwork-io/terratest v0.40.20
+	github.com/stretchr/testify v1.7.0
 	golang.org/x/oauth2 v0.0.0-20220411215720-9780585627b5
 	google.golang.org/api v0.80.0
 )
@@ -59,7 +60,6 @@ require (
 	github.com/pquerna/otp v1.2.0 // indirect
 	github.com/russross/blackfriday/v2 v2.1.0 // indirect
 	github.com/spf13/pflag v1.0.5 // indirect
-	github.com/stretchr/testify v1.7.0 // indirect
 	github.com/tmccombs/hcl2json v0.3.3 // indirect
 	github.com/ulikunitz/xz v0.5.8 // indirect
 	github.com/urfave/cli v1.22.2 // indirect

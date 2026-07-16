@@ -2,6 +2,7 @@ package test
 
 import (
 	"context"
+	"github.com/stretchr/testify/assert"
 	"strings"
 	"testing"
 
@@ -80,4 +81,72 @@ func TestServiceAccountWithMembershipsExample(t *testing.T) {
 	t.Parallel()
 
 	// Write test covering different membership types with and without conditions.
+}
+
+func TestServiceAccountWithInvalidAccountId(t *testing.T) {
+	t.Parallel()
+
+	runId := strings.ToLower(random.UniqueId())
+	exampleModuleName := "service_account_with_keys"
+	terraformOptions := &terraform.Options{}
+
+	nameEndingInHyphen := runId + "-"
+	nameStartingWithHyphen := "-" + runId
+
+	shortName := "short" + runId
+	if len(shortName) > 5 {
+		shortName = shortName[len(shortName)-5:]
+	}
+
+	longName := "thishasmorethanthirtycharacters" + runId
+	if len(longName) > 31 {
+		longName = longName[len(longName)-31:]
+	}
+
+	invalidAccountIds := []string{nameEndingInHyphen, nameStartingWithHyphen, shortName, longName}
+
+	for _, invalidAccountId := range invalidAccountIds {
+
+		test_structure.RunTestStage(t, exampleModuleName+"_create_test_copy", func() {
+			tempTestDir := test_structure.CopyTerraformFolderToTemp(t, "..", "examples/"+exampleModuleName)
+
+			copyErr := copySupportingFiles(
+				[]string{
+					"providers.tf",
+				}, tempTestDir)
+
+			if copyErr != nil {
+				t.Fatal("Failed to copy supporting files: " + copyErr.Error())
+			}
+
+			dummyGoogleCredentials := `{
+									"type": "service_account",
+									"project_id": "project-id",
+									"private_key_id": "key-id",
+									"private_key": "-----BEGIN PRIVATE KEY-----\n(private-key)\n-----END PRIVATE KEY-----\n",
+									"client_email": "service-account-email",
+									"client_id": "client-id",
+									"auth_uri": "https://accounts.google.com/o/oauth2/auth",
+									"token_uri": "https://oauth2.googleapis.com/token",
+									"auth_provider_x509_cert_url": "https://www.googleapis.com/oauth2/v1/certs",
+									"client_x509_cert_url": "https://www.googleapis.com/robot/v1/metadata/x509/service-account-email"
+								}`
+
+			terraformOptions = &terraform.Options{
+				TerraformDir: tempTestDir,
+				Vars: map[string]interface{}{
+					"account_id":         invalidAccountId,
+					"project_id":         "dummy",
+					"google_credentials": dummyGoogleCredentials,
+					"google_region":      "asia-southeast2",
+				},
+			}
+		})
+
+		test_structure.RunTestStage(t, exampleModuleName+"_validate", func() {
+			//err := terraform.InitAndPlanE(t, terraformOptions)
+			_, err := terraform.InitAndPlanE(t, terraformOptions)
+			assert.NotNil(t, err, "All given account IDs should be invalid")
+		})
+	}
 }
